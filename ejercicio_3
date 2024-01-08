@@ -1,0 +1,56 @@
+# -------------------------------------------------Enunciado-------------------------------------------------
+# Desarrolla un programa en ensamblador RV32I capaz de recorrer un vector de palabras con signo y encontrar 
+# el valor máximo y mínimo almacenados. El vector comienza en la dirección de memoria 0x10010000 y finaliza 
+# en la 0x100100FF.
+#------------------------------------------------------------------------------------------------------------
+
+.data #64 palabras aleatorias para llenar el vector
+.word        0x00112233, 0x44556677, 0x8899AABB, 0xCCDDEEFF,
+             0x10203040, 0x50607080, 0x90A0B0C0, 0xD0E0F000,
+             0x11223344, 0x55667788, 0x99AABBCC, 0xDDEEFF00,
+             0x20304050, 0x60708090, 0xA0B0C0D0, 0xE0F00010,
+             0x22334455, 0x66778899, 0xAABBCCDD, 0xEEFF0011,
+             0x30405060, 0x708090A0, 0xB0C0D0E0, 0xF0001020,
+             0x33445566, 0x778899AA, 0xBBCCDDEE, 0xFF001122,
+             0x40506070, 0x8090A0B0, 0xC0D0E0F0, 0x00102030,
+             0x44556677, 0x8899AABB, 0xCCDDEEFF, 0x10203040,
+             0x50607080, 0x90A0B0C0, 0xD0E0F000, 0x11223344,
+             0x55667788, 0x99AABBCC, 0xDDEEFF00, 0x20304050,
+             0x60708090, 0xA0B0C0D0, 0xE0F00010, 0x22334455,
+             0x66778899, 0xAABBCCDD, 0xEEFF0011, 0x30405060,
+             0x708090A0, 0xB0C0D0E0, 0xF0001020, 0x33445566,
+             0x778899AA, 0xBBCCDDEE, 0xFF001122, 0x40506070,
+             0x8090A0B0, 0xC0D0E0F0, 0x00102030, 0x44556677,
+             0x8899AABB, 0xCCDDEEFF, 0x10203040, 0x50607080,
+             0x90A0B0C0, 0xD0E0F000, 0x11223344, 0x55667788,
+             0x99AABBCC, 0xDDEEFF00, 0x20304050, 0x60708090,
+             0xA0B0C0D0, 0xE0F00010
+
+.text
+.globl _start
+
+_start:
+    # Inicializar variables
+    li t0, 0          # Contador del bucle
+    li a0, 0x10010000 # Primera posición del vector
+    lw t1, (a0) # Cargar el primer valor del vector
+    add t2, t1, zero        # Inicializar el valor máximo con el primer valor del vector
+    add t3, t1, zero        # Inicializar el valor mínimo con el primer valor del vector
+    li t4, 64        # Número de palabras en el vector (256/4)
+    # Bucle para recorrer el vector y encontrar el valor máximo y mínimo
+loop:
+    lw t5, (a0)    # Cargar una palabra del vector
+    blt t5, t3, update_min    # Si el valor es menor que el valor mínimo, actualizar el mínimo
+    bgt t5, t2, update_max    # Si el valor es mayor que el valor máximo, actualizar el máximo
+next:
+    addi a0, a0, 4
+    addi t0, t0, 1    # Incrementar el contador del bucle en 4 para saltar a la siguiente palabra
+    bltu t0, t4, loop    # Si no se ha llegado al final del vector, repetir el bucle
+    ebreak #FIN
+
+update_max:
+    add t2, t5, zero    # Actualizar el valor máximo con el nuevo valor
+    j next
+update_min:
+    add t3, t5, zero    # Actualizar el valor mínimo con el nuevo valor
+    j next
