@@ -1,0 +1,32 @@
+# -----------------------------------------------Enunciado-----------------------------------------------
+# Desarrolla un programa en ensamblador RV32I capaz de recorrer un vector de halfwords y sumar todos sus 
+# elementos considerados como datos unsigned. El vector comienza en la dirección de memoria 0x10010000 y 
+# finaliza en la 0x100100FF.
+# -------------------------------------------------------------------------------------------------------
+
+.text
+.globl _start
+
+_start:
+    # Inicializar variables
+    li t0, 0             # Variable de acumulación
+    li a0, 0x10010000    # Dirección de inicio del vector
+    li t2, 128           # Longitud del vector en halfwords (256/2)
+
+
+    # Bucle de recorrido y suma del vector
+loop:
+    lhu t4, (a0)         # Cargar halfword del vector
+    add t0, t0, t4       # Sumar al acumulador
+    addi a0, a0, 2      # Avanzar al siguiente elemento del vector
+    addi t2, t2, -1     # Actualizar longitud restante del vector (Tamaño en bytes de cada elemento del vector (2 bytes))
+    bnez t2, loop        # Si no se ha recorrido todo el vector, volver al bucle
+
+    # Detener el programa
+    ebreak
+
+.data #inicio de vector con datos aleatorios
+vector:     .half   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                    17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+                    33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
+                    49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64
