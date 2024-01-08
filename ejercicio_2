@@ -1,7 +1,7 @@
 # ----------------------------------------------Enunciado----------------------------------------------
 # Desarrolla un programa en ensamblador RV32I capaz de recorrer un vector de unsigned halfwords (16 
 # bits) y calcular la media entre todos sus valores. El vector comienza en la dirección de memoria 
-# 0x10010000 y finaliza en la 0x1001007F. Piensa que el vector tiene 128 posiciones (2<sup>7</sup>)
+# 0x10010000 y finaliza en la 0x1001007F. Piensa que el vector tiene 128 posiciones (2^7)
 # -----------------------------------------------------------------------------------------------------
 
 .data #inicialización del vector
