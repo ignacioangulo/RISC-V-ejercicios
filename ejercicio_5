@@ -1,0 +1,6 @@
+# --------------------------------------------------Enunciado--------------------------------------------------
+# Desarrolla un programa en ensamblador RV32I capaz de modificar el modo de almacenamiento de un vector de 
+# halfwords, el vector original se encuentra en modo little endian y debes convertirlo a big endian 
+# (intercambiar el orden de los dos bytes del halfword).
+# -------------------------------------------------------------------------------------------------------------
+
